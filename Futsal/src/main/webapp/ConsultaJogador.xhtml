@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/template/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<ui:define name="titulo">Consulta Jogador</ui:define>
+	</h:head>
+
+	<f:metadata>
+		<f:viewAction action="#{consultaJogadorMBean.consultar}"></f:viewAction>
+	</f:metadata>
+
+	<ui:define name="corpo">
+		<h:form>
+			<p:messages />
+			<h1>Consulta Jogadores</h1>
+			<p:dataTable value="#{consultaJogadorMBean.jogadores}" var="jogador"
+				border="1" cellspacing="0" cellpadding="2" paginator="true" rows="5"
+				paginatorPosition="bottom">
+
+				<p:column headerText="#" width="5%" sortBy="#{jogador.idJogador}">
+					<p:outputLabel value="#{jogador.idJogador}" />
+				</p:column>
+
+				<p:column headerText="Nome do Jogador" sortBy="#{jogador.nomeJogador}">
+					<p:outputLabel value="#{jogador.nomeJogador}" />
+				</p:column>
+				
+				<p:column headerText="Equipe" sortBy="#{jogador.equipe.nomeEquipe}">
+					<p:outputLabel value="#{jogador.equipe.nomeEquipe}" />
+				</p:column>
+				
+
+				<p:column width="12%">
+					<p:button title="Editar" icon="ui-icon-pencil"
+						outcome="/CadastroJogador">
+						<f:param name="id" value="#{jogador.idJogador}" />
+					</p:button>
+					<p:commandButton title="Remover" icon="ui-icon-trash"
+						action="#{consultaJogadorMBean.excluir}" update="@form">
+						<f:setPropertyActionListener value="#{jogador}"
+							target="#{consultaJogadorMBean.jogadorSelecionado}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
